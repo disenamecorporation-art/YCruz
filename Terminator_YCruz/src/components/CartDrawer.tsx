@@ -100,7 +100,7 @@ export default function CartDrawer({
       `---\n` +
       `Muchas gracias por comprar en *YCruz Shop*. ¡Aguardamos tu contacto para coordinar la entrega en Venezuela! 🛌✨`;
 
-    const cleanPhone = "584123456789"; 
+    const cleanPhone = "584242406063"; 
     const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 
     setTimeout(() => {

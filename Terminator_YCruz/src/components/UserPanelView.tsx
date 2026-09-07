@@ -145,7 +145,7 @@ export default function UserPanelView({
                 <div className="space-y-1">
                   <p className="text-[#8A7263] uppercase text-[9px] font-bold">Tipo de Cliente</p>
                   <div className="flex items-center gap-1.5 text-sm font-medium text-[#4A3F37]">
-                    <span>{currentUser.isAdmin ? "Administrador General ✨" : "Cliente Exclusivo YCruz 🌸"}</span>
+                    <span>{currentUser.isAdmin ? "Administrador General" : "Cliente Exclusivo YCruz 🌸"}</span>
                   </div>
                 </div>
 

@@ -361,14 +361,14 @@ export default function App() {
                   Atención Directa
                 </h3>
                 
-                <div className="space-y-4 font-sans text-xs text-[#8A7263] tracking-wide">
+                 <div className="space-y-4 font-sans text-xs text-[#8A7263] tracking-wide">
                   <div className="flex items-center gap-3">
                     <span className="p-2 bg-[#F5EFE7] rounded-full text-[#8A7263]">
                       <Mail size={16} />
                     </span>
                     <div>
                       <p className="text-[10px] uppercase font-bold text-[#4A3F37]">Email</p>
-                      <p>contacto@ycruzshop.com</p>
+                      <p>yubeisy.cruz@gmail.com</p>
                     </div>
                   </div>
 
@@ -378,7 +378,7 @@ export default function App() {
                     </span>
                     <div>
                       <p className="text-[10px] uppercase font-bold text-[#4A3F37]">Teléfono / WhatsApp</p>
-                      <p>+54 11 3456-7890</p>
+                      <p>0424.2406063</p>
                     </div>
                   </div>
 
@@ -387,8 +387,8 @@ export default function App() {
                       <MapPin size={16} />
                     </span>
                     <div>
-                      <p className="text-[10px] uppercase font-bold text-[#4A3F37]">Showroom</p>
-                      <p>Recoleta, Buenos Aires, Argentina</p>
+                      <p className="text-[10px] uppercase font-bold text-[#4A3F37]">Ubicación</p>
+                      <p>Avenida Las Fuentes el Paraiso- Caracas</p>
                     </div>
                   </div>
                 </div>

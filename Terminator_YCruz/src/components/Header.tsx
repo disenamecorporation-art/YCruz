@@ -40,7 +40,7 @@ export default function Header({
     { id: "sobre-nosotros", label: "Sobre Nosotros" },
     { id: "contacto", label: "Contacto" },
     ...(currentUser ? [{ id: "user-panel" as const, label: "Mi Cuenta" }] : []),
-    ...(isAdmin ? [{ id: "admin" as const, label: "✨ Admin" }] : []),
+    ...(isAdmin ? [{ id: "admin" as const, label: "Admin" }] : []),
   ];
 
   const handleNavClick = (tabId: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin" | "user-panel") => {
