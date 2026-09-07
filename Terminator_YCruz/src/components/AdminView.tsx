@@ -1,15 +1,35 @@
 import React, { useState } from "react";
 import { Plus, Trash2, Edit, Save, X, Layers, ShoppingBag, Eye, RefreshCw, Upload, Check } from "lucide-react";
 import { Product, Category } from "../types";
+import { 
+  insertSupabaseProduct, 
+  updateSupabaseProduct, 
+  deleteSupabaseProduct,
+  insertSupabaseCategory, 
+  updateSupabaseCategory, 
+  deleteSupabaseCategory 
+} from "../supabaseService";
 
 interface AdminViewProps {
   products: Product[];
   categories: Category[];
   onUpdateProducts: (newProducts: Product[]) => void;
   onUpdateCategories: (newCategories: Category[]) => void;
+  supabaseStatus?: {
+    configured: boolean;
+    hasProductsTable: boolean;
+    hasCategoriesTable: boolean;
+    errorMsg?: string;
+  };
 }
 
-export default function AdminView({ products, categories, onUpdateProducts, onUpdateCategories }: AdminViewProps) {
+export default function AdminView({ 
+  products, 
+  categories, 
+  onUpdateProducts, 
+  onUpdateCategories,
+  supabaseStatus 
+}: AdminViewProps) {
   const [activeTab, setActiveTab] = useState<"products" | "categories">("products");
 
   // Product Form State
@@ -79,7 +99,7 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
   };
 
   // PRODUCT SUBMISSION
-  const handleProductSubmit = (e: React.FormEvent) => {
+  const handleProductSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!productForm.name || !productForm.category) {
       alert("Por favor rellena los campos obligatorios");
@@ -88,26 +108,32 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
 
     if (editingProductId) {
       // Edit mode
+      const updatedProduct: Product = {
+        id: editingProductId,
+        name: productForm.name,
+        category: productForm.category,
+        price: Number(productForm.price),
+        image: productForm.image || "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&q=80&w=600&h=800",
+        stock: Number(productForm.stock),
+        rating: productForm.rating,
+        sizes: productForm.sizes.length > 0 ? productForm.sizes : ["S", "M", "L"],
+        colors: productForm.colors.length > 0 ? productForm.colors : [{ name: "Beige", hex: "#EADDC9" }],
+        isNew: productForm.isNew,
+        isOffer: productForm.isOffer,
+        isTrending: productForm.isTrending,
+      };
+
+      // Call Supabase
+      await updateSupabaseProduct(updatedProduct);
+
       const updated = products.map(p => {
         if (p.id === editingProductId) {
-          return {
-            ...p,
-            name: productForm.name,
-            category: productForm.category,
-            price: Number(productForm.price),
-            image: productForm.image || "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&q=80&w=600&h=800",
-            stock: Number(productForm.stock),
-            sizes: productForm.sizes.length > 0 ? productForm.sizes : ["S", "M", "L"],
-            colors: productForm.colors.length > 0 ? productForm.colors : [{ name: "Beige", hex: "#EADDC9" }],
-            isNew: productForm.isNew,
-            isOffer: productForm.isOffer,
-            isTrending: productForm.isTrending,
-          };
+          return updatedProduct;
         }
         return p;
       });
       onUpdateProducts(updated);
-      triggerNotification("¡Producto editado con éxito!");
+      triggerNotification("¡Producto editado en Supabase con éxito!");
     } else {
       // Add mode
       const newId = `prod-${Date.now()}`;
@@ -125,8 +151,12 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
         isOffer: productForm.isOffer,
         isTrending: productForm.isTrending,
       };
+
+      // Call Supabase
+      await insertSupabaseProduct(newProduct);
+
       onUpdateProducts([newProduct, ...products]);
-      triggerNotification("¡Nuevo producto añadido!");
+      triggerNotification("¡Nuevo producto añadido a Supabase!");
     }
 
     // Reset Form
@@ -170,16 +200,19 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
     window.scrollTo({ top: 150, behavior: "smooth" });
   };
 
-  const handleDeleteProduct = (id: string) => {
+  const handleDeleteProduct = async (id: string) => {
     if (confirm("¿Estás segura de que deseas eliminar este producto permanentemente?")) {
+      // Call Supabase
+      await deleteSupabaseProduct(id);
+
       const filtered = products.filter(p => p.id !== id);
       onUpdateProducts(filtered);
-      triggerNotification("Producto eliminado.");
+      triggerNotification("Producto eliminado de Supabase.");
     }
   };
 
   // CATEGORY SUBMISSION
-  const handleCategorySubmit = (e: React.FormEvent) => {
+  const handleCategorySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!categoryForm.name) {
       alert("Por favor rellena el nombre");
@@ -190,19 +223,24 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
 
     if (editingCategoryId) {
       // Edit
+      const updatedCategory: Category = {
+        id: editingCategoryId,
+        name: categoryForm.name,
+        image: categoryForm.image || "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=600&h=600",
+        count: Number(categoryForm.count),
+      };
+
+      // Call Supabase
+      await updateSupabaseCategory(updatedCategory);
+
       const updated = categories.map(c => {
         if (c.id === editingCategoryId) {
-          return {
-            ...c,
-            name: categoryForm.name,
-            image: categoryForm.image || "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=600&h=600",
-            count: Number(categoryForm.count),
-          };
+          return updatedCategory;
         }
         return c;
       });
       onUpdateCategories(updated);
-      triggerNotification("Categoría editada con éxito.");
+      triggerNotification("Categoría editada en Supabase con éxito.");
     } else {
       // Add
       const newCat: Category = {
@@ -211,8 +249,12 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
         image: categoryForm.image || "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&q=80&w=600&h=600",
         count: Number(categoryForm.count) || 0,
       };
+
+      // Call Supabase
+      await insertSupabaseCategory(newCat);
+
       onUpdateCategories([...categories, newCat]);
-      triggerNotification("Nueva categoría creada.");
+      triggerNotification("Nueva categoría creada en Supabase.");
     }
 
     resetCategoryForm();
@@ -241,11 +283,14 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
     window.scrollTo({ top: 150, behavior: "smooth" });
   };
 
-  const handleDeleteCategory = (id: string) => {
+  const handleDeleteCategory = async (id: string) => {
     if (confirm("¿Estás segura de que deseas eliminar esta categoría? Esto podría afectar a los productos asociados.")) {
+      // Call Supabase
+      await deleteSupabaseCategory(id);
+
       const filtered = categories.filter(c => c.id !== id);
       onUpdateCategories(filtered);
-      triggerNotification("Categoría eliminada.");
+      triggerNotification("Categoría eliminada de Supabase.");
     }
   };
 
@@ -270,7 +315,7 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
             className={`px-5 py-2 rounded-full font-sans text-xs tracking-widest uppercase font-semibold transition-all flex items-center gap-2 cursor-pointer ${
               activeTab === "products" 
                 ? "bg-[#8A7263] text-white shadow-xs" 
-                : "text-[#8A7263] hover:text-[#4A3F37]"
+                 : "text-[#8A7263] hover:text-[#4A3F37]"
             }`}
           >
             <ShoppingBag size={14} /> Productos
@@ -287,6 +332,32 @@ export default function AdminView({ products, categories, onUpdateProducts, onUp
           </button>
         </div>
       </div>
+
+      {/* Supabase status warning */}
+      {supabaseStatus?.configured && (!supabaseStatus.hasProductsTable || !supabaseStatus.hasCategoriesTable) && (
+        <div className="p-5 bg-amber-50 border border-amber-200 rounded-2xl space-y-3 font-sans text-xs text-[#78350F] animate-fade-in shadow-xs">
+          <div className="flex items-center gap-2 font-semibold text-sm text-[#78350F]">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            ⚠️ Base de datos conectada, pero falta crear o recargar las tablas
+          </div>
+          <p className="leading-relaxed">
+            Supabase indica que las tablas de <strong className="font-semibold text-amber-950">products</strong> y <strong className="font-semibold text-amber-950">categories</strong> aún no se encuentran listas en el esquema de tu proyecto (Error <code className="bg-amber-100 px-1 py-0.5 rounded text-amber-900 text-[11px]">PGRST205</code>).
+          </p>
+          <p className="font-semibold leading-relaxed">
+            Para solucionarlo al instante, copia y ejecuta esto en el "SQL Editor" de tu panel de Supabase y dale a "Run" para refrescar el caché:
+          </p>
+          <pre className="p-3 bg-neutral-900 text-neutral-100 rounded-xl text-[11px] leading-relaxed select-all overflow-x-auto font-mono">
+{`NOTIFY pgrst, 'reload schema';
+SELECT pg_notify('pgrst', 'reload schema');`}
+          </pre>
+          <p className="text-[10px] text-amber-700 italic">
+            * Nota: Si aún no has ejecutado el script completo de tablas, ejecuta primero el script completo que tienes en el archivo <code className="font-mono bg-amber-100/50 px-1 py-0.5 rounded text-amber-900">/supabase-setup.sql</code> de tu proyecto.
+          </p>
+        </div>
+      )}
 
       {/* Floating alert */}
       {notification && (

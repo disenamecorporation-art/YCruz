@@ -123,50 +123,50 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
   };
 
   return (
-    <div id="shop-view-container" class="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 animate-fade-in">
+    <div id="shop-view-container" className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 animate-fade-in">
       
       {/* Title */}
-      <div class="text-center md:text-left mb-8 md:mb-10 space-y-2">
-        <h1 class="font-serif text-3xl md:text-4xl text-[#4A3F37] tracking-wider font-light uppercase">
+      <div className="text-center md:text-left mb-8 md:mb-10 space-y-2">
+        <h1 className="font-serif text-3xl md:text-4xl text-[#4A3F37] tracking-wider font-light uppercase">
           La Tienda
         </h1>
-        <p class="font-sans text-xs tracking-widest text-[#8A7263] uppercase">
+        <p className="font-sans text-xs tracking-widest text-[#8A7263] uppercase">
           {selectedCategory ? `Colección > ${selectedCategory.replace("-", " ")}` : "Todas nuestras prendas"}
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* ================= SIDEBAR FILTERS (Desktop) ================= */}
-        <aside class="hidden lg:block lg:col-span-3 space-y-8 bg-[#FDFBF8] p-6 rounded-2xl border border-[#C9A98C]/15 shadow-xs h-fit">
+        <aside className="hidden lg:block lg:col-span-3 space-y-8 bg-[#FDFBF8] p-6 rounded-2xl border border-[#C9A98C]/15 shadow-xs h-fit">
           
           {/* Header Filters & Reset */}
-          <div class="flex items-center justify-between pb-4 border-b border-[#C9A98C]/15">
-            <span class="font-sans text-xs uppercase tracking-widest font-semibold text-[#4A3F37] flex items-center gap-1.5">
+          <div className="flex items-center justify-between pb-4 border-b border-[#C9A98C]/15">
+            <span className="font-sans text-xs uppercase tracking-widest font-semibold text-[#4A3F37] flex items-center gap-1.5">
               <SlidersHorizontal size={14} /> Filtros
             </span>
             <button
               onClick={resetFilters}
-              class="text-[10px] font-sans tracking-widest uppercase text-[#8A7263] hover:text-red-600 transition-colors flex items-center gap-1 cursor-pointer"
+              className="text-[10px] font-sans tracking-widest uppercase text-[#8A7263] hover:text-red-600 transition-colors flex items-center gap-1 cursor-pointer"
             >
               <RotateCcw size={10} /> Limpiar
             </button>
           </div>
 
           {/* Block Categories */}
-          <div class="space-y-3.5">
-            <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+          <div className="space-y-3.5">
+            <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
               Categorías
             </h4>
-            <div class="space-y-2.5">
+            <div className="space-y-2.5">
               <button
                 onClick={() => { setSelectedCategory(""); setCurrentPage(1); }}
-                class={`w-full flex items-center justify-between text-xs font-sans text-left transition-colors cursor-pointer ${
+                className={`w-full flex items-center justify-between text-xs font-sans text-left transition-colors cursor-pointer ${
                   selectedCategory === "" ? "text-[#8A7263] font-semibold" : "text-[#4A3F37]/80 hover:text-[#4A3F37]"
                 }`}
               >
                 <span>Todas las pijamas</span>
-                <span class="text-[10px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263] font-medium">
+                <span className="text-[10px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263] font-medium">
                   {products.length}
                 </span>
               </button>
@@ -176,12 +176,12 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
                   <button
                     key={cat.id}
                     onClick={() => { setSelectedCategory(cat.id); setCurrentPage(1); }}
-                    class={`w-full flex items-center justify-between text-xs font-sans text-left transition-colors cursor-pointer ${
+                    className={`w-full flex items-center justify-between text-xs font-sans text-left transition-colors cursor-pointer ${
                       isActive ? "text-[#8A7263] font-semibold" : "text-[#4A3F37]/80 hover:text-[#4A3F37]"
                     }`}
                   >
                     <span>{cat.name}</span>
-                    <span class="text-[10px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263] font-medium">
+                    <span className="text-[10px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263] font-medium">
                       {getCategoryCount(cat.id)}
                     </span>
                   </button>
@@ -191,12 +191,12 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
           </div>
 
           {/* Block Price Range */}
-          <div class="space-y-4 pt-4 border-t border-[#C9A98C]/15">
-            <div class="flex justify-between items-baseline">
-              <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+          <div className="space-y-4 pt-4 border-t border-[#C9A98C]/15">
+            <div className="flex justify-between items-baseline">
+              <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
                 Filtrar por Precio
               </h4>
-              <span class="text-xs font-serif font-semibold text-[#8A7263]">Hasta ${priceRange}</span>
+              <span className="text-xs font-serif font-semibold text-[#8A7263]">Hasta ${priceRange}</span>
             </div>
             <input
               type="range"
@@ -204,27 +204,27 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
               max="70"
               value={priceRange}
               onChange={(e) => { setPriceRange(Number(e.target.value)); setCurrentPage(1); }}
-              class="w-full accent-[#F3CBA3] cursor-pointer bg-[#F5EFE7] h-1.5 rounded-lg"
+              className="w-full accent-[#F3CBA3] cursor-pointer bg-[#F5EFE7] h-1.5 rounded-lg"
             />
-            <div class="flex justify-between text-[10px] text-[#8A7263] font-sans">
+            <div className="flex justify-between text-[10px] text-[#8A7263] font-sans">
               <span>$15.00</span>
               <span>$70.00</span>
             </div>
           </div>
 
           {/* Block Talla */}
-          <div class="space-y-3 pt-4 border-t border-[#C9A98C]/15">
-            <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+          <div className="space-y-3 pt-4 border-t border-[#C9A98C]/15">
+            <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
               Talla
             </h4>
-            <div class="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {availableSizes.map((size) => {
                 const isSelected = selectedSizes.includes(size);
                 return (
                   <button
                     key={size}
                     onClick={() => handleSizeToggle(size)}
-                    class={`w-10 h-10 rounded-lg text-xs font-sans font-medium border flex items-center justify-center transition-all cursor-pointer ${
+                    className={`w-10 h-10 rounded-lg text-xs font-sans font-medium border flex items-center justify-center transition-all cursor-pointer ${
                       isSelected
                         ? "bg-[#8A7263] border-[#8A7263] text-white"
                         : "bg-white border-[#C9A98C]/25 text-[#4A3F37] hover:border-[#8A7263]"
@@ -238,25 +238,25 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
           </div>
 
           {/* Block Color */}
-          <div class="space-y-3 pt-4 border-t border-[#C9A98C]/15">
-            <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+          <div className="space-y-3 pt-4 border-t border-[#C9A98C]/15">
+            <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
               Color
             </h4>
-            <div class="grid grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-4 gap-2.5">
               {availableColors.map((color) => {
                 const isSelected = selectedColors.includes(color.name);
                 return (
                   <button
                     key={color.name}
                     onClick={() => handleColorToggle(color.name)}
-                    class={`w-8 h-8 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
+                    className={`w-8 h-8 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
                       isSelected ? "border-[#4A3F37] ring-2 ring-[#8A7263]" : "border-[#C9A98C]/35"
                     }`}
                     style={{ backgroundColor: color.hex }}
                     title={color.name}
                   >
                     {isSelected && (
-                      <span class="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
                     )}
                   </button>
                 );
@@ -267,28 +267,28 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
           {/* Accent decoration button */}
           <button
             onClick={() => {}}
-            class="w-full py-3 bg-[#F3CBA3] hover:bg-[#ebd2b4] text-[#4A3F37] font-sans text-[10px] tracking-widest uppercase font-semibold rounded-full shadow-xs transition-colors cursor-pointer"
+            className="w-full py-3 bg-[#F3CBA3] hover:bg-[#ebd2b4] text-[#4A3F37] font-sans text-[10px] tracking-widest uppercase font-semibold rounded-full shadow-xs transition-colors cursor-pointer"
           >
             Aplicar Filtros
           </button>
         </aside>
 
         {/* ================= PRODUCTS AREA (Right) ================= */}
-        <section class="lg:col-span-9 space-y-6">
+        <section className="lg:col-span-9 space-y-6">
           
           {/* Header Controls */}
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#FDFBF8] p-4 rounded-xl border border-[#C9A98C]/15 shadow-2xs">
-            <div class="text-xs font-sans text-[#8A7263]">
-              Mostrando <span class="font-semibold text-[#4A3F37]">{filteredProducts.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}</span>–
-              <span class="font-semibold text-[#4A3F37]">{Math.min(currentPage * itemsPerPage, filteredProducts.length)}</span> de{" "}
-              <span class="font-semibold text-[#4A3F37]">{filteredProducts.length}</span> productos
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#FDFBF8] p-4 rounded-xl border border-[#C9A98C]/15 shadow-2xs">
+            <div className="text-xs font-sans text-[#8A7263]">
+              Mostrando <span className="font-semibold text-[#4A3F37]">{filteredProducts.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}</span>–
+              <span className="font-semibold text-[#4A3F37]">{Math.min(currentPage * itemsPerPage, filteredProducts.length)}</span> de{" "}
+              <span className="font-semibold text-[#4A3F37]">{filteredProducts.length}</span> productos
             </div>
 
-            <div class="flex items-center gap-3 w-full sm:w-auto">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               {/* Mobile Filter Button toggle */}
               <button
                 onClick={() => setMobileFiltersOpen(true)}
-                class="lg:hidden flex-1 sm:flex-none py-2 px-4 bg-[#8A7263] text-white rounded-lg text-xs font-sans font-medium flex items-center justify-center gap-2 cursor-pointer"
+                className="lg:hidden flex-1 sm:flex-none py-2 px-4 bg-[#8A7263] text-white rounded-lg text-xs font-sans font-medium flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Filter size={14} /> Filtros
               </button>
@@ -297,7 +297,7 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
                 id="select-sort-by"
                 value={sortBy}
                 onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
-                class="flex-1 sm:flex-none py-2 px-4 bg-white border border-[#C9A98C]/25 rounded-lg text-xs font-sans text-[#4A3F37] focus:outline-hidden focus:ring-1 focus:ring-[#8A7263]"
+                className="flex-1 sm:flex-none py-2 px-4 bg-white border border-[#C9A98C]/25 rounded-lg text-xs font-sans text-[#4A3F37] focus:outline-hidden focus:ring-1 focus:ring-[#8A7263]"
               >
                 <option value="recent">Más recientes</option>
                 <option value="price-asc">Precio: menor a mayor</option>
@@ -308,30 +308,30 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
 
           {/* Active filter pills */}
           {(selectedCategory || selectedSizes.length > 0 || selectedColors.length > 0 || priceRange < 60) && (
-            <div class="flex flex-wrap gap-2 items-center">
-              <span class="text-[10px] font-sans text-[#8A7263] uppercase tracking-wider">Activos:</span>
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-[10px] font-sans text-[#8A7263] uppercase tracking-wider">Activos:</span>
               {selectedCategory && (
-                <span class="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
+                <span className="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
                   Categoría: {selectedCategory.replace("-", " ")}
-                  <X size={10} class="cursor-pointer" onClick={() => setSelectedCategory("")} />
+                  <X size={10} className="cursor-pointer" onClick={() => setSelectedCategory("")} />
                 </span>
               )}
               {priceRange < 60 && (
-                <span class="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
+                <span className="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
                   Precio: &lt; ${priceRange}
-                  <X size={10} class="cursor-pointer" onClick={() => setPriceRange(60)} />
+                  <X size={10} className="cursor-pointer" onClick={() => setPriceRange(60)} />
                 </span>
               )}
               {selectedSizes.map((sz) => (
-                <span key={sz} class="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
+                <span key={sz} className="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
                   Talla: {sz}
-                  <X size={10} class="cursor-pointer" onClick={() => handleSizeToggle(sz)} />
+                  <X size={10} className="cursor-pointer" onClick={() => handleSizeToggle(sz)} />
                 </span>
               ))}
               {selectedColors.map((cl) => (
-                <span key={cl} class="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
+                <span key={cl} className="inline-flex items-center gap-1 bg-[#8A7263]/10 text-[#8A7263] text-[10px] font-sans font-semibold px-2.5 py-1 rounded-full border border-[#8A7263]/20">
                   Color: {cl}
-                  <X size={10} class="cursor-pointer" onClick={() => handleColorToggle(cl)} />
+                  <X size={10} className="cursor-pointer" onClick={() => handleColorToggle(cl)} />
                 </span>
               ))}
             </div>
@@ -339,19 +339,19 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
 
           {/* Grid responsive of products (3 columns on desktop) */}
           {filteredProducts.length === 0 ? (
-            <div class="bg-[#FDFBF8] rounded-2xl border border-[#C9A98C]/15 py-20 px-4 text-center space-y-4">
-              <div class="text-[#8A7263] w-12 h-12 rounded-full bg-[#F5EFE7] flex items-center justify-center mx-auto">
+            <div className="bg-[#FDFBF8] rounded-2xl border border-[#C9A98C]/15 py-20 px-4 text-center space-y-4">
+              <div className="text-[#8A7263] w-12 h-12 rounded-full bg-[#F5EFE7] flex items-center justify-center mx-auto">
                 <SlidersHorizontal size={24} />
               </div>
-              <div class="space-y-1">
-                <h3 class="font-serif text-lg text-[#4A3F37] font-semibold">Sin resultados</h3>
-                <p class="font-sans text-xs text-[#8A7263] max-w-xs mx-auto">
+              <div className="space-y-1">
+                <h3 className="font-serif text-lg text-[#4A3F37] font-semibold">Sin resultados</h3>
+                <p className="font-sans text-xs text-[#8A7263] max-w-xs mx-auto">
                   Prueba a ajustar tus filtros de búsqueda o restablecerlos para ver más preciosas pijamas.
                 </p>
               </div>
               <button
                 onClick={resetFilters}
-                class="py-2.5 px-6 bg-[#F3CBA3] hover:bg-[#ebd2b4] text-[#4A3F37] font-sans text-xs tracking-widest uppercase font-bold rounded-full transition-all cursor-pointer"
+                className="py-2.5 px-6 bg-[#F3CBA3] hover:bg-[#ebd2b4] text-[#4A3F37] font-sans text-xs tracking-widest uppercase font-bold rounded-full transition-all cursor-pointer"
               >
                 Restablecer Filtros
               </button>
@@ -371,11 +371,11 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
 
           {/* Minimalist Pagination */}
           {totalPages > 1 && (
-            <div class="flex items-center justify-center gap-2.5 pt-8 md:pt-12 border-t border-[#C9A98C]/15">
+            <div className="flex items-center justify-center gap-2.5 pt-8 md:pt-12 border-t border-[#C9A98C]/15">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                class="p-2 bg-white hover:bg-[#F5EFE7] disabled:opacity-40 rounded-full border border-[#C9A98C]/20 transition-all cursor-pointer text-[#4A3F37]"
+                className="p-2 bg-white hover:bg-[#F5EFE7] disabled:opacity-40 rounded-full border border-[#C9A98C]/20 transition-all cursor-pointer text-[#4A3F37]"
               >
                 <ChevronLeft size={16} />
               </button>
@@ -387,7 +387,7 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    class={`w-9 h-9 rounded-full font-sans text-xs font-semibold flex items-center justify-center border transition-all cursor-pointer ${
+                    className={`w-9 h-9 rounded-full font-sans text-xs font-semibold flex items-center justify-center border transition-all cursor-pointer ${
                       isSelected
                         ? "bg-[#8A7263] border-[#8A7263] text-white"
                         : "bg-white border-[#C9A98C]/20 text-[#4A3F37] hover:bg-[#F5EFE7]"
@@ -401,7 +401,7 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                class="p-2 bg-white hover:bg-[#F5EFE7] disabled:opacity-40 rounded-full border border-[#C9A98C]/20 transition-all cursor-pointer text-[#4A3F37]"
+                className="p-2 bg-white hover:bg-[#F5EFE7] disabled:opacity-40 rounded-full border border-[#C9A98C]/20 transition-all cursor-pointer text-[#4A3F37]"
               >
                 <ChevronRight size={16} />
               </button>
@@ -414,49 +414,49 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
 
       {/* ================= MOBILE FILTERS DRAWER (Drawer modal) ================= */}
       {mobileFiltersOpen && (
-        <div class="fixed inset-0 z-50 lg:hidden bg-black/60 backdrop-blur-xs flex justify-start">
-          <div class="absolute inset-0 -z-10" onClick={() => setMobileFiltersOpen(false)} />
+        <div className="fixed inset-0 z-50 lg:hidden bg-black/60 backdrop-blur-xs flex justify-start">
+          <div className="absolute inset-0 -z-10" onClick={() => setMobileFiltersOpen(false)} />
           
-          <div class="w-full max-w-xs h-full bg-[#FDFBF8] p-6 shadow-2xl flex flex-col justify-between overflow-y-auto animate-slide-in">
-            <div class="space-y-6">
+          <div className="w-full max-w-xs h-full bg-[#FDFBF8] p-6 shadow-2xl flex flex-col justify-between overflow-y-auto animate-slide-in">
+            <div className="space-y-6">
               
               {/* Header Filters */}
-              <div class="flex items-center justify-between pb-3 border-b border-[#C9A98C]/15">
-                <span class="font-sans text-xs uppercase tracking-widest font-semibold text-[#4A3F37] flex items-center gap-1.5">
+              <div className="flex items-center justify-between pb-3 border-b border-[#C9A98C]/15">
+                <span className="font-sans text-xs uppercase tracking-widest font-semibold text-[#4A3F37] flex items-center gap-1.5">
                   <SlidersHorizontal size={14} /> Filtros de Tienda
                 </span>
                 <button
                   onClick={() => setMobileFiltersOpen(false)}
-                  class="p-1 text-[#4A3F37]/60 hover:text-[#4A3F37] rounded-full hover:bg-[#F5EFE7] transition-all cursor-pointer"
+                  className="p-1 text-[#4A3F37]/60 hover:text-[#4A3F37] rounded-full hover:bg-[#F5EFE7] transition-all cursor-pointer"
                 >
                   <X size={18} />
                 </button>
               </div>
 
               {/* Reset trigger */}
-              <div class="flex justify-end">
+              <div className="flex justify-end">
                 <button
                   onClick={() => { resetFilters(); setMobileFiltersOpen(false); }}
-                  class="text-[9px] font-sans tracking-widest uppercase text-red-600 font-semibold flex items-center gap-1 cursor-pointer"
+                  className="text-[9px] font-sans tracking-widest uppercase text-red-600 font-semibold flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw size={10} /> Restablecer
                 </button>
               </div>
 
               {/* Block Categories */}
-              <div class="space-y-3">
-                <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+              <div className="space-y-3">
+                <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
                   Categorías
                 </h4>
-                <div class="space-y-2">
+                <div className="space-y-2">
                   <button
                     onClick={() => { setSelectedCategory(""); setCurrentPage(1); setMobileFiltersOpen(false); }}
-                    class={`w-full flex items-center justify-between text-xs font-sans text-left py-1 cursor-pointer ${
+                    className={`w-full flex items-center justify-between text-xs font-sans text-left py-1 cursor-pointer ${
                       selectedCategory === "" ? "text-[#8A7263] font-semibold" : "text-[#4A3F37]/80"
                     }`}
                   >
                     <span>Todas las pijamas</span>
-                    <span class="text-[9px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263]">
+                    <span className="text-[9px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263]">
                       {products.length}
                     </span>
                   </button>
@@ -464,12 +464,12 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
                     <button
                       key={cat.id}
                       onClick={() => { setSelectedCategory(cat.id); setCurrentPage(1); setMobileFiltersOpen(false); }}
-                      class={`w-full flex items-center justify-between text-xs font-sans text-left py-1 cursor-pointer ${
+                      className={`w-full flex items-center justify-between text-xs font-sans text-left py-1 cursor-pointer ${
                         selectedCategory === cat.id ? "text-[#8A7263] font-semibold" : "text-[#4A3F37]/80"
                       }`}
                     >
                       <span>{cat.name}</span>
-                      <span class="text-[9px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263]">
+                      <span className="text-[9px] bg-[#F5EFE7] px-2 py-0.5 rounded-full text-[#8A7263]">
                         {getCategoryCount(cat.id)}
                       </span>
                     </button>
@@ -478,12 +478,12 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
               </div>
 
               {/* Block Price Range */}
-              <div class="space-y-3 pt-4 border-t border-[#C9A98C]/15">
-                <div class="flex justify-between items-baseline">
-                  <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+              <div className="space-y-3 pt-4 border-t border-[#C9A98C]/15">
+                <div className="flex justify-between items-baseline">
+                  <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
                     Precio Máximo
                   </h4>
-                  <span class="text-xs font-serif font-semibold text-[#8A7263]">${priceRange}</span>
+                  <span className="text-xs font-serif font-semibold text-[#8A7263]">${priceRange}</span>
                 </div>
                 <input
                   type="range"
@@ -491,23 +491,23 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
                   max="70"
                   value={priceRange}
                   onChange={(e) => { setPriceRange(Number(e.target.value)); setCurrentPage(1); }}
-                  class="w-full accent-[#F3CBA3] cursor-pointer"
+                  className="w-full accent-[#F3CBA3] cursor-pointer"
                 />
               </div>
 
               {/* Block Talla */}
-              <div class="space-y-3 pt-4 border-t border-[#C9A98C]/15">
-                <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+              <div className="space-y-3 pt-4 border-t border-[#C9A98C]/15">
+                <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
                   Tallas
                 </h4>
-                <div class="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5">
                   {availableSizes.map((size) => {
                     const isSelected = selectedSizes.includes(size);
                     return (
                       <button
                         key={size}
                         onClick={() => handleSizeToggle(size)}
-                        class={`px-3 py-1.5 rounded-lg text-xs font-sans border flex items-center justify-center transition-all cursor-pointer ${
+                        className={`px-3 py-1.5 rounded-lg text-xs font-sans border flex items-center justify-center transition-all cursor-pointer ${
                           isSelected
                             ? "bg-[#8A7263] border-[#8A7263] text-white"
                             : "bg-white border-[#C9A98C]/25 text-[#4A3F37]"
@@ -521,24 +521,24 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
               </div>
 
               {/* Block Color */}
-              <div class="space-y-3 pt-4 border-t border-[#C9A98C]/15">
-                <h4 class="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
+              <div className="space-y-3 pt-4 border-t border-[#C9A98C]/15">
+                <h4 className="font-sans text-[11px] uppercase tracking-widest font-bold text-[#4A3F37]">
                   Colores
                 </h4>
-                <div class="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   {availableColors.map((color) => {
                     const isSelected = selectedColors.includes(color.name);
                     return (
                       <button
                         key={color.name}
                         onClick={() => handleColorToggle(color.name)}
-                        class={`w-7 h-7 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
+                        className={`w-7 h-7 rounded-full border transition-all cursor-pointer flex items-center justify-center ${
                           isSelected ? "border-[#4A3F37] ring-1 ring-[#8A7263]" : "border-[#C9A98C]/35"
                         }`}
                         style={{ backgroundColor: color.hex }}
                       >
                         {isSelected && (
-                          <span class="w-1 h-1 rounded-full bg-white shadow-xs" />
+                          <span className="w-1 h-1 rounded-full bg-white shadow-xs" />
                         )}
                       </button>
                     );
@@ -548,10 +548,10 @@ export default function ShopView({ products, initialCategoryFilter = "", onAddTo
 
             </div>
 
-            <div class="pt-6 border-t border-[#C9A98C]/15 mt-6">
+            <div className="pt-6 border-t border-[#C9A98C]/15 mt-6">
               <button
                 onClick={() => setMobileFiltersOpen(false)}
-                class="w-full py-3 bg-[#F3CBA3] text-[#4A3F37] font-sans text-xs tracking-widest uppercase font-semibold rounded-full shadow-xs cursor-pointer"
+                className="w-full py-3 bg-[#F3CBA3] text-[#4A3F37] font-sans text-xs tracking-widest uppercase font-semibold rounded-full shadow-xs cursor-pointer"
               >
                 Ver {filteredProducts.length} Resultados
               </button>

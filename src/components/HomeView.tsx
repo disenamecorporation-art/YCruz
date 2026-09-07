@@ -157,7 +157,7 @@ export default function HomeView({ products, categories, onAddToCart, onNavigate
         {/* Background Bed/Linen Texture with Overlay */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=1600&h=800"
+            src="https://i.postimg.cc/TYYcJC6k/Chat-GPT-Image-7-sept-2026-04-23-23-p-m.png"
             alt="Cozy elegant bedroom"
             className="w-full h-full object-cover object-center"
             referrerPolicy="no-referrer"
@@ -168,9 +168,6 @@ export default function HomeView({ products, categories, onAddToCart, onNavigate
         {/* Floating Glassmorphic Container */}
         <div className="max-w-4xl mx-auto px-4 relative z-10 w-full">
           <div className="glass-card rounded-2xl p-8 sm:p-12 md:p-16 text-center text-white space-y-6 shadow-2xl max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#F3CBA3]/15 rounded-full border border-[#F3CBA3]/30 text-[#F3CBA3] font-sans text-[10px] tracking-widest uppercase font-semibold">
-              <Sparkles size={12} /> Colección Seda Premium
-            </div>
             
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light leading-[1.15] text-[#FDFBF8]">
               Siente el abrazo de la suavidad pura
@@ -216,28 +213,28 @@ export default function HomeView({ products, categories, onAddToCart, onNavigate
 
       {/* 7. NEWSLETTER BANNER */}
       <section id="newsletter-section" className="max-w-7xl mx-auto px-4 md:px-8">
-        <div class="bg-[#8A7263] rounded-2xl p-8 sm:p-10 md:p-12 shadow-xl border border-[#C9A98C]/20">
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div className="bg-[#8A7263] rounded-2xl p-8 sm:p-10 md:p-12 shadow-xl border border-[#C9A98C]/20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             
             {/* Left Content */}
-            <div class="md:col-span-7 flex items-start gap-4 text-white text-center sm:text-left">
-              <div class="p-3.5 bg-[#FDFBF8]/15 rounded-xl border border-white/10 hidden sm:flex shrink-0">
+            <div className="md:col-span-7 flex items-start gap-4 text-white text-center sm:text-left">
+              <div className="p-3.5 bg-[#FDFBF8]/15 rounded-xl border border-white/10 hidden sm:flex shrink-0">
                 <Gift size={26} className="text-[#F3CBA3]" />
               </div>
-              <div class="space-y-1.5 flex-1">
-                <h3 class="font-serif text-xl sm:text-2xl font-light text-[#FDFBF8]">
+              <div className="space-y-1.5 flex-1">
+                <h3 className="font-serif text-xl sm:text-2xl font-light text-[#FDFBF8]">
                   Suscríbete y obtén 10% OFF
                 </h3>
-                <p class="font-sans text-xs md:text-sm text-[#FDFBF8]/85 font-light">
+                <p className="font-sans text-xs md:text-sm text-[#FDFBF8]/85 font-light">
                   En tu primera compra. Recibe lanzamientos exclusivos y consejos de descanso.
                 </p>
               </div>
             </div>
 
             {/* Right Form */}
-            <div class="md:col-span-5 w-full">
+            <div className="md:col-span-5 w-full">
               {!subscribed ? (
-                <form onSubmit={handleSubscribe} class="flex flex-col sm:flex-row gap-2.5 w-full">
+                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2.5 w-full">
                   <input
                     id="input-newsletter-email"
                     type="email"
@@ -245,23 +242,23 @@ export default function HomeView({ products, categories, onAddToCart, onNavigate
                     placeholder="Tu correo electrónico"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
-                    class="flex-1 px-4 py-3.5 bg-white/10 text-white placeholder-white/50 border border-[#C9A98C]/35 rounded-xl text-xs font-sans tracking-wide focus:outline-hidden focus:bg-white/15 focus:ring-1 focus:ring-[#F3CBA3]"
+                    className="flex-1 px-4 py-3.5 bg-white/10 text-white placeholder-white/50 border border-[#C9A98C]/35 rounded-xl text-xs font-sans tracking-wide focus:outline-hidden focus:bg-white/15 focus:ring-1 focus:ring-[#F3CBA3]"
                   />
                   <button
                     id="btn-newsletter-subscribe"
                     type="submit"
-                    class="py-3.5 px-6 bg-[#F3CBA3] hover:bg-[#ebd2b4] text-[#4A3F37] font-sans text-xs tracking-widest uppercase font-semibold rounded-xl shadow-xs transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0"
+                    className="py-3.5 px-6 bg-[#F3CBA3] hover:bg-[#ebd2b4] text-[#4A3F37] font-sans text-xs tracking-widest uppercase font-semibold rounded-xl shadow-xs transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0"
                   >
                     Suscribirme
                   </button>
                 </form>
               ) : (
-                <div class="bg-white/10 border border-green-400/30 p-4 rounded-xl text-center text-white font-sans animate-fade-in space-y-1.5">
-                  <p class="text-xs font-semibold flex items-center justify-center gap-1.5">
+                <div className="bg-white/10 border border-green-400/30 p-4 rounded-xl text-center text-white font-sans animate-fade-in space-y-1.5">
+                  <p className="text-xs font-semibold flex items-center justify-center gap-1.5">
                     <Sparkles size={14} className="text-[#F3CBA3]" /> ¡Te has suscrito con éxito!
                   </p>
-                  <p class="text-[10px] text-white/80 tracking-widest uppercase">
-                    Usa el código <span class="bg-[#F3CBA3] text-[#4A3F37] font-bold px-2 py-0.5 rounded-xs">YCRUZ10</span> en tu carrito para 10% OFF.
+                  <p className="text-[10px] text-white/80 tracking-widest uppercase">
+                    Usa el código <span className="bg-[#F3CBA3] text-[#4A3F37] font-bold px-2 py-0.5 rounded-xs">YCRUZ10</span> en tu carrito para 10% OFF.
                   </p>
                 </div>
               )}

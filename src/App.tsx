@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 import { Product, CartItem, User, Category } from "./types";
 import { products, categories } from "./data";
+import { getSupabaseProducts, getSupabaseCategories } from "./supabaseService";
+import { supabase, isSupabaseConfigured } from "./supabaseClient";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeView from "./components/HomeView";
@@ -9,10 +11,11 @@ import ShopView from "./components/ShopView";
 import LoginModal from "./components/LoginModal";
 import CartDrawer from "./components/CartDrawer";
 import AdminView from "./components/AdminView";
+import UserPanelView from "./components/UserPanelView";
 import ProductDetailModal from "./components/ProductDetailModal";
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<"inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin">("inicio");
+  const [currentTab, setCurrentTab] = useState<"inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin" | "user-panel">("inicio");
   
   // Dynamic collections
   const [productList, setProductList] = useState<Product[]>(() => {
@@ -61,6 +64,66 @@ export default function App() {
   const [contactMsg, setContactMsg] = useState("");
   const [contactSubmitted, setContactSubmitted] = useState(false);
 
+  // Connection and tables status
+  const [supabaseStatus, setSupabaseStatus] = useState<{
+    configured: boolean;
+    hasProductsTable: boolean;
+    hasCategoriesTable: boolean;
+    errorMsg?: string;
+  }>({
+    configured: isSupabaseConfigured,
+    hasProductsTable: true,
+    hasCategoriesTable: true
+  });
+
+  // Fetch products, categories and restore session from Supabase on mount
+  useEffect(() => {
+    async function loadSupabaseData() {
+      if (isSupabaseConfigured) {
+        try {
+          const remoteProducts = await getSupabaseProducts();
+          const remoteCategories = await getSupabaseCategories();
+
+          setSupabaseStatus({
+            configured: true,
+            hasProductsTable: remoteProducts !== null,
+            hasCategoriesTable: remoteCategories !== null,
+            errorMsg: (!remoteProducts || !remoteCategories) ? "Falta crear las tablas en Supabase. Por favor ejecuta el script de SQL en tu panel de Supabase." : undefined
+          });
+
+          if (remoteProducts && remoteProducts.length > 0) {
+            setProductList(remoteProducts);
+          }
+          if (remoteCategories && remoteCategories.length > 0) {
+            setCategoryList(remoteCategories);
+          }
+        } catch (err: any) {
+          console.error("Error loading Supabase data:", err);
+          setSupabaseStatus(prev => ({
+            ...prev,
+            errorMsg: err?.message || "Error al conectar con Supabase."
+          }));
+        }
+
+        // Restore active user session from Supabase Auth
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session && session.user) {
+            const userMeta = session.user.user_metadata;
+            setCurrentUser({
+              email: session.user.email || "",
+              fullName: userMeta?.fullName || userMeta?.full_name || session.user.email?.split("@")[0] || "",
+              isLoggedIn: true,
+            });
+          }
+        } catch (err) {
+          console.error("Error restoring user session:", err);
+        }
+      }
+    }
+    loadSupabaseData();
+  }, []);
+
   // Sync state to localStorage
   useEffect(() => {
     localStorage.setItem("ycruz_products", JSON.stringify(productList));
@@ -82,14 +145,19 @@ export default function App() {
     }
   }, [currentUser]);
 
-  // Safeguard: Redirect to homepage if user tries to access admin tab without permissions
+  // Safeguard: Redirect to homepage if user tries to access admin tab or user-panel without permissions
   useEffect(() => {
-    const isAdmin = currentUser && (
+    const isAdmin = !!(currentUser && (
+      currentUser.isAdmin ||
       currentUser.email.toLowerCase() === "admin@ycruz.com" ||
       currentUser.email.toLowerCase() === "disenamecorporation@gmail.com" ||
+      currentUser.email.toLowerCase() === "ycruzshop@gmail.com" ||
       currentUser.email.toLowerCase().includes("admin")
-    );
+    ));
     if (currentTab === "admin" && !isAdmin) {
+      setCurrentTab("inicio");
+    }
+    if (currentTab === "user-panel" && !currentUser) {
       setCurrentTab("inicio");
     }
   }, [currentUser, currentTab]);
@@ -138,7 +206,14 @@ export default function App() {
     setLoginModalOpen(false);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (isSupabaseConfigured) {
+      try {
+        await supabase.auth.signOut();
+      } catch (err) {
+        console.error("Error signing out from Supabase:", err);
+      }
+    }
     setCurrentUser(null);
     setCurrentTab("inicio");
   };
@@ -252,6 +327,17 @@ export default function App() {
             categories={categoryList}
             onUpdateProducts={setProductList}
             onUpdateCategories={setCategoryList}
+            supabaseStatus={supabaseStatus}
+          />
+        )}
+
+        {currentTab === "user-panel" && currentUser && (
+          <UserPanelView
+            currentUser={currentUser}
+            products={productList}
+            onLogout={handleLogout}
+            onNavigateToShop={() => handleNavigateToShop()}
+            onAddToCart={handleAddToCart}
           />
         )}
 

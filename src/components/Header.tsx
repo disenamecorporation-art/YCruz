@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Search, ShoppingBag, User as UserIcon, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, User as UserIcon, Menu, X, LogOut, Shield } from "lucide-react";
 import { User } from "../types";
 
 interface HeaderProps {
-  currentTab: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin";
-  onTabChange: (tab: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin") => void;
+  currentTab: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin" | "user-panel";
+  onTabChange: (tab: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin" | "user-panel") => void;
   cartCount: number;
   onOpenCart: () => void;
   onOpenLogin: () => void;
@@ -25,22 +25,25 @@ export default function Header({
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const isAdmin = currentUser && (
+  const isAdmin = !!(currentUser && (
+    currentUser.isAdmin ||
     currentUser.email.toLowerCase() === "admin@ycruz.com" || 
     currentUser.email.toLowerCase() === "disenamecorporation@gmail.com" || 
+    currentUser.email.toLowerCase() === "ycruzshop@gmail.com" ||
     currentUser.email.toLowerCase().includes("admin")
-  );
+  ));
 
-  const menuItems: { id: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin"; label: string }[] = [
+  const menuItems: { id: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin" | "user-panel"; label: string }[] = [
     { id: "inicio", label: "Inicio" },
     { id: "tienda", label: "Tienda" },
     { id: "nuevo", label: "Nuevo" },
     { id: "sobre-nosotros", label: "Sobre Nosotros" },
     { id: "contacto", label: "Contacto" },
-    ...(isAdmin ? [{ id: "admin", label: "✨ Admin" } as const] : []),
+    ...(currentUser ? [{ id: "user-panel" as const, label: "Mi Cuenta" }] : []),
+    ...(isAdmin ? [{ id: "admin" as const, label: "✨ Admin" }] : []),
   ];
 
-  const handleNavClick = (tabId: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin") => {
+  const handleNavClick = (tabId: "inicio" | "tienda" | "nuevo" | "sobre-nosotros" | "contacto" | "admin" | "user-panel") => {
     onTabChange(tabId);
     setMobileMenuOpen(false);
   };
@@ -55,37 +58,37 @@ export default function Header({
       </div>
 
       {/* Main Header Row */}
-      <div class="w-full bg-[#8A7263]/90 backdrop-blur-md border-b border-[#C9A98C]/15 px-4 md:px-8 lg:px-12 py-3 flex items-center justify-between text-white">
+      <div className="w-full bg-[#8A7263]/90 backdrop-blur-md border-b border-[#C9A98C]/15 px-4 md:px-8 lg:px-12 py-3 flex items-center justify-between text-white">
         
         {/* Left: Logo YCruz */}
-        <div class="flex items-center">
+        <div className="flex items-center">
           <button 
             onClick={() => handleNavClick("inicio")} 
-            class="focus:outline-hidden cursor-pointer"
+            className="focus:outline-hidden cursor-pointer"
           >
             <img 
               src="https://i.postimg.cc/7Y6tqRfP/logowebpsd.png" 
               alt="YCruz Logo" 
-              class="h-11 md:h-14 lg:h-16 object-contain" 
+              className="h-11 md:h-14 lg:h-16 object-contain" 
             />
           </button>
         </div>
 
         {/* Center: Desktop Navigation Menu */}
-        <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
           {menuItems.map((item) => {
             const isActive = currentTab === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                class={`font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 relative py-2 cursor-pointer ${
+                className={`font-sans text-xs tracking-[0.2em] uppercase transition-all duration-300 relative py-2 cursor-pointer ${
                   isActive ? "text-[#FDFBF8] font-medium" : "text-[#FDFBF8]/75 hover:text-[#FDFBF8]"
                 }`}
               >
                 {item.label}
                 {isActive && (
-                  <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1px] bg-[#C9A98C]" />
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[1px] bg-[#C9A98C]" />
                 )}
               </button>
             );
@@ -93,21 +96,21 @@ export default function Header({
         </nav>
 
         {/* Right: Actions */}
-        <div class="flex items-center gap-3 md:gap-5">
+        <div className="flex items-center gap-3 md:gap-5">
           {/* Search bar integration */}
-          <div class="relative flex items-center">
+          <div className="relative flex items-center">
             {searchOpen && (
               <input
                 type="text"
                 placeholder="Buscar pijama..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                class="absolute right-8 top-1/2 -translate-y-1/2 bg-[#FDFBF8] text-[#4A3F37] rounded-full px-4 py-1.5 text-xs font-sans placeholder-gray-400 focus:outline-hidden focus:ring-1 focus:ring-[#8A7263] border border-[#C9A98C]/30 w-36 sm:w-48 transition-all animate-fade-in"
+                className="absolute right-8 top-1/2 -translate-y-1/2 bg-[#FDFBF8] text-[#4A3F37] rounded-full px-4 py-1.5 text-xs font-sans placeholder-gray-400 focus:outline-hidden focus:ring-1 focus:ring-[#8A7263] border border-[#C9A98C]/30 w-36 sm:w-48 transition-all animate-fade-in"
               />
             )}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              class="p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden cursor-pointer"
+              className="p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden cursor-pointer"
               title="Buscar"
             >
               <Search size={18} />
@@ -115,25 +118,36 @@ export default function Header({
           </div>
 
           {/* User profile action */}
-          <div class="relative">
+          <div className="relative">
             {currentUser ? (
-              <div class="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleNavClick("user-panel")}
+                  className={`p-1.5 px-3 rounded-full border border-white/20 text-white hover:bg-white/10 transition-all font-sans text-[10px] tracking-widest uppercase cursor-pointer flex items-center gap-1.5 ${
+                    currentTab === "user-panel" ? "bg-white/15 border-white" : ""
+                  }`}
+                  title="Mi Cuenta"
+                >
+                  <UserIcon size={14} />
+                  <span className="hidden sm:inline font-medium max-w-[100px] truncate">{currentUser.fullName}</span>
+                </button>
+                
                 <button
                   onClick={onLogout}
-                  class="p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden font-sans text-[10px] tracking-widest uppercase cursor-pointer"
+                  className="p-1.5 text-white/80 hover:text-red-300 transition-colors cursor-pointer"
                   title="Cerrar Sesión"
                 >
-                  <span class="hidden lg:inline mr-1">{currentUser.fullName}</span>
-                  <UserIcon size={18} class="inline" />
+                  <LogOut size={16} />
                 </button>
               </div>
             ) : (
               <button
                 onClick={onOpenLogin}
-                class="p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden cursor-pointer"
+                className="p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden cursor-pointer flex items-center gap-1.5"
                 title="Iniciar Sesión / Registrarse"
               >
                 <UserIcon size={18} />
+                <span className="hidden lg:inline font-sans text-[10px] tracking-widest uppercase font-semibold">Ingresar</span>
               </button>
             )}
           </div>
@@ -141,12 +155,12 @@ export default function Header({
           {/* Cart triggers */}
           <button
             onClick={onOpenCart}
-            class="p-2 text-white hover:text-[#F3CBA3] transition-colors relative focus:outline-hidden cursor-pointer"
+            className="p-2 text-white hover:text-[#F3CBA3] transition-colors relative focus:outline-hidden cursor-pointer"
             title="Bolsa de compras"
           >
             <ShoppingBag size={18} />
             {cartCount > 0 && (
-              <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#F3CBA3] text-[#4A3F37] text-[9px] font-sans font-bold flex items-center justify-center rounded-full">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#F3CBA3] text-[#4A3F37] text-[9px] font-sans font-bold flex items-center justify-center rounded-full">
                 {cartCount}
               </span>
             )}
@@ -155,7 +169,7 @@ export default function Header({
           {/* Mobile Hamburguer trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            class="md:hidden p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden cursor-pointer"
+            className="md:hidden p-2 text-white hover:text-[#F3CBA3] transition-colors focus:outline-hidden cursor-pointer"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -164,14 +178,14 @@ export default function Header({
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div class="md:hidden absolute top-full left-0 w-full bg-[#8A7263] border-b border-[#C9A98C]/25 text-white py-6 px-6 flex flex-col gap-4 shadow-xl z-50 animate-fade-in">
+        <div className="md:hidden absolute top-full left-0 w-full bg-[#8A7263] border-b border-[#C9A98C]/25 text-white py-6 px-6 flex flex-col gap-4 shadow-xl z-50 animate-fade-in">
           {menuItems.map((item) => {
             const isActive = currentTab === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                class={`font-sans text-xs tracking-widest uppercase text-left py-2.5 border-b border-white/5 cursor-pointer ${
+                className={`font-sans text-xs tracking-widest uppercase text-left py-2.5 border-b border-white/5 cursor-pointer ${
                   isActive ? "text-[#F3CBA3] font-medium" : "text-white/80"
                 }`}
               >
@@ -179,6 +193,44 @@ export default function Header({
               </button>
             );
           })}
+
+          {/* Mobile User/Session Row */}
+          <div className="pt-4 border-t border-white/10 mt-2">
+            {currentUser ? (
+              <div className="space-y-3">
+                <p className="text-[10px] uppercase tracking-widest text-[#F3CBA3]">
+                  Sesión iniciada como: <strong className="font-semibold">{currentUser.fullName}</strong>
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleNavClick("user-panel")}
+                    className="flex-1 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-center py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer"
+                  >
+                    Ver Mi Cuenta
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onLogout();
+                    }}
+                    className="flex-1 bg-red-900/40 hover:bg-red-900/60 text-red-100 text-center py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    <LogOut size={12} /> Salir
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenLogin();
+                }}
+                className="w-full bg-[#F3CBA3] text-[#4A3F37] text-center py-3 rounded-xl text-xs font-semibold uppercase tracking-widest hover:bg-white transition-all cursor-pointer flex items-center justify-center gap-2"
+              >
+                <UserIcon size={14} /> Iniciar Sesión / Registrarse
+              </button>
+            )}
+          </div>
         </div>
       )}
     </header>
